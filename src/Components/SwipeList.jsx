@@ -5,6 +5,7 @@ class SwipeList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      condition: true,
       list: [
         { name: "nana", id: 1, slide: 1 },
         { name: "baba", id: 2, slide: 1 },
@@ -29,10 +30,24 @@ class SwipeList extends React.Component {
       };
     });
   }
-  render() {
-    return (
-      <div>
-        {this.state.list.map((item, i) => {
+
+  rendering(condition) {
+    if (condition)
+      return this.state.list.map((item, i) => {
+        return (
+          <SwipeContainer
+            key={item.id}
+            slide={item.slide}
+            name={item.name}
+            id={item.id}
+            index={i}
+            Change={(e, info) => this.Change(e, info)}
+          />
+        );
+      });
+    else
+      return this.state.list.map((item, i) => {
+        if (i === 0)
           return (
             <SwipeContainer
               key={item.id}
@@ -43,7 +58,64 @@ class SwipeList extends React.Component {
               Change={(e, info) => this.Change(e, info)}
             />
           );
-        })}
+        else return null;
+      });
+  }
+  render() {
+    console.log(this.state.list);
+    console.log(this.state.condition);
+    return (
+      <div>
+        <p style={{ fontWeight: "bold" }}>
+          there is <mark> {this.state.list.length} </mark> notification left to
+          swipe on. and you can see on the console if you swipped left or right
+        </p>
+        <button
+          onClick={() =>
+            this.setState((prevState) => {
+              return { condition: !prevState.condition };
+            })
+          }
+        >
+          {this.state.condition ? "one after another" : "everyone together"}
+        </button>
+
+        {/* <SwipeContainer
+          key={this.state.list[0].id}
+          slide={this.state.list[0].slide}
+          name={this.state.list[0].name}
+          id={this.state.list[0].id}
+          index={this.state.list[0]}
+          Change={(e, info) => this.Change(e, info)}
+        /> */}
+        {this.rendering(this.state.condition)}
+        {/* {this.state.list.map((item, i) => {
+          if (i === 0)
+            return (
+              <SwipeContainer
+                key={item.id}
+                slide={item.slide}
+                name={item.name}
+                id={item.id}
+                index={i}
+                Change={(e, info) => this.Change(e, info)}
+              />
+            );
+          else return "hi !";
+        })} */}
+
+        {/* {this.state.list.map((item, i) => {
+          return (
+            <SwipeContainer
+              key={item.id}
+              slide={item.slide}
+              name={item.name}
+              id={item.id}
+              index={i}
+              Change={(e, info) => this.Change(e, info)}
+            />
+          );
+        })} */}
         {/* <SwipeContainer
           slide={1}
           name="kiki"

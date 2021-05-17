@@ -32,7 +32,7 @@ class SwipeContainer extends React.Component {
 
   render() {
     // console.log("hi !!!");
-    // console.log(this.state.slide);
+    // console.log(this.props);
     return (
       <div>
         <ReactSwipeableViews
